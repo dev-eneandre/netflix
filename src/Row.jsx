@@ -24,21 +24,30 @@ const Row = ({ title, fetchUrl, isLargeRow }) => {
 
   const opts = {
     height: '390',
-    width: '640',
+    width: '99.5%',
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
+      controls: 0,
+      rel: 0,
+      showinfo: 0,
+      mute: 0,
+      loop: 1
     }
   }
 
   const handleClick = (movie) => {
+    // console.log(movie.title);
+    // console.log(movie.name);
     if(trailerUrl){
       setTrailerUrl("");
     }else{
-      movieTrailer(movie?.name || "")
+      movieTrailer(movie?.title || "")
       .then(url =>{
+        console.log(movie?.name);
         const urlParams = new URLSearchParams(new URL(url).search);
         setTrailerUrl(urlParams.get('v'));
+        console.log(trailerUrl);
       })
       .catch((error) => console.log(error))
     }
@@ -60,9 +69,8 @@ const Row = ({ title, fetchUrl, isLargeRow }) => {
           />
         ))}
       </div>
-      {trailerUrl && <YouTube videoId={trailerUrl}  opts={opts} /> }
-      
-    </div>
+            {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} /> }
+      </div>
   );
 };
 
